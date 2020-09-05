@@ -8,5 +8,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SeoulAir.Data.Domain.Services\SeoulAir.Data.Domain.Services.csproj" />
+    <ProjectReference Include="..\SeoulAir.Data.Domain\SeoulAir.Data.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
