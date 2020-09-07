@@ -1,10 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SeoulAir.Data.Api.Configuration;
+using SeoulAir.Data.Domain.Dtos;
+using SeoulAir.Data.Domain.Services.Extensions;
+using SeoulAir.Device.Domain.Services.Extensions;
 using SeoulAir.Data.Api.Configuration.Extensions;
-
 
 namespace SeoulAir.Data.Api
 {
@@ -20,7 +24,15 @@ namespace SeoulAir.Data.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMongoDb(Configuration);
+
             services.AddControllers();
+
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+            services.AddDomainServices();
+
+            services.AddRepositories();
 
             services.AddSwagger();
 

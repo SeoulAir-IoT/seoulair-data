@@ -1,6 +1,6 @@
-﻿namespace SeoulAir.Data.Domain.Dtos
+﻿namespace SeoulAir.Data.Repositories.Entities
 {
-    public class StationInfoDto
+    public class StationInfo
     {
         public ushort StationCode { get; set; }
         public string StationAddress { get; set; }

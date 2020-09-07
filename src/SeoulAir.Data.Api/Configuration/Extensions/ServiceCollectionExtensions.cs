@@ -18,7 +18,7 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
         public static IServiceCollection AddMQTT(this IServiceCollection services, IConfiguration configuration)
         {
             ISettingsReader reader = new SettingsReader(configuration);
-            IMqttService<RawDataInstanceDto> _mqttService = new MqttService<RawDataInstanceDto>(reader.ReadAllSettings());
+            IMqttService<DataRecordDto> _mqttService = new MqttService<DataRecordDto>(reader.ReadAllSettings());
 
             /*await _mqttService.OpenConnection();
             while (IsOn)
@@ -29,6 +29,21 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
             */
 
             services.AddSingleton(_mqttService);
+            return services;
+        }
+
+        public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
+        {
+            MongoDbSettings dbSettings = new MongoDbSettings()
+            {
+                ConnectionString = configuration.GetSection("MongoDbSettings:ConnectionString").Value,
+                DatabaseName = configuration.GetSection("MongoDbSettings:DatabaseName").Value,
+                Username = configuration.GetSection("MongoDbSettings:Username").Value,
+                Password = configuration.GetSection("MongoDbSettings:Password").Value
+            };
+
+            services.AddSingleton(dbSettings);
+
             return services;
         }
     }
