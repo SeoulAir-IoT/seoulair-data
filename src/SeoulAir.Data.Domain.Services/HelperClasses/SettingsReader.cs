@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Services;
-using SeoulAir.Data.Domain.Exceptions;
-using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Domain.Services.HelperClasses
 {
@@ -19,20 +17,20 @@ namespace SeoulAir.Data.Domain.Services.HelperClasses
         {
             MqttSettings mqttSettings = new MqttSettings();
 
-            if (!TryReadSetting("Mqtt:Broker.Address", out var tempHolder))
-                throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Broker.Address"));
+            //if (!TryReadSetting("Mqtt:Broker.Address", out var tempHolder))
+            //    throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Broker.Address"));
 
-            mqttSettings.BrokerAddress = tempHolder;
+            //mqttSettings.BrokerAddress = tempHolder;
 
-            if (!TryReadSetting("Mqtt:Broker.Port", out tempHolder))
-                throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Broker.Port"));
+            //if (!TryReadSetting("Mqtt:Broker.Port", out tempHolder))
+            //    throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Broker.Port"));
 
-            mqttSettings.BrokerPort = short.Parse(tempHolder);
+            //mqttSettings.BrokerPort = short.Parse(tempHolder);
 
-            if (!TryReadSetting("Mqtt:Topic", out tempHolder))
-                throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Topic"));
+            //if (!TryReadSetting("Mqtt:Topic", out tempHolder))
+            //    throw new ConfigurationException(string.Format(InvalidConfigurationAttribute, "Mqtt:Topic"));
 
-            mqttSettings.SubscribeTopic = tempHolder;
+            //mqttSettings.SubscribeTopic = tempHolder;
 
             return mqttSettings;
         }

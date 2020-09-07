@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeoulAir.Data.Api", "src\SeoulAir.Data.Api\SeoulAir.Data.Api.csproj", "{AD6AE106-7C4C-4996-B8F2-33701D53091D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoulAir.Data.Domain", "src\SeoulAir.Data.Domain\SeoulAir.Data.Domain.csproj", "{03164DB5-BCEB-4F3B-B2FD-8A84821AA18B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeoulAir.Data.Domain", "src\SeoulAir.Data.Domain\SeoulAir.Data.Domain.csproj", "{03164DB5-BCEB-4F3B-B2FD-8A84821AA18B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoulAir.Data.Domain.Services", "src\SeoulAir.Data.Domain.Services\SeoulAir.Data.Domain.Services.csproj", "{33738720-EFAD-4D6E-B9CE-1C0944EA2E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeoulAir.Data.Domain.Services", "src\SeoulAir.Data.Domain.Services\SeoulAir.Data.Domain.Services.csproj", "{33738720-EFAD-4D6E-B9CE-1C0944EA2E63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoulAir.Data.Repositories", "src\SeoulAir.Data.Repositories\SeoulAir.Data.Repositories.csproj", "{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{33738720-EFAD-4D6E-B9CE-1C0944EA2E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33738720-EFAD-4D6E-B9CE-1C0944EA2E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33738720-EFAD-4D6E-B9CE-1C0944EA2E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -336,3 +336,7 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+
+# Sublime text 3 files
+*.sublime-project
+*.sublime-workspace

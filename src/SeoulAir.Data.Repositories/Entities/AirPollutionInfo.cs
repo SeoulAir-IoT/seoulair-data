@@ -1,6 +1,6 @@
-﻿namespace SeoulAir.Data.Domain.Dtos
+﻿namespace SeoulAir.Data.Repositories.Entities
 {
-    public class AirPollutionInfoDto
+    public class AirPollutionInfo
     {
         public double So2 { get; set; }
         public double No2 { get; set; }
