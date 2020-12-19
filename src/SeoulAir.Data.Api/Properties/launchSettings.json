@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "index",
+      "launchUrl": "index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,11 +20,18 @@
     "SeoulAir.Data.Api": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "index",
-      "applicationUrl": "https://localhost:5601;http://localhost:5600",
+      "launchUrl": "index.html",
+      "applicationUrl": "http://localhost:5600",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": false,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/index.html",
+      "publisAllPorts": true,
+      "useSSL" : true
     }
   }
 }

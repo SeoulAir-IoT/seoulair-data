@@ -16,5 +16,4 @@
     <ProjectReference Include="..\SeoulAir.Data.Repositories\SeoulAir.Data.Repositories.csproj" />
   </ItemGroup>
 
-
 </Project>

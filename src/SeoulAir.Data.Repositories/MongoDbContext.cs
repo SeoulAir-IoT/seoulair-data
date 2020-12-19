@@ -10,13 +10,14 @@ namespace SeoulAir.Data.Repositories
     {
         private readonly IMongoDatabase _database;
 
-        public MongoDbContext(MongoDbSettings settings)
+        public MongoDbContext(AppSettings settings)
         {
-            var credential = MongoCredential.CreateCredential("admin", settings.Username, settings.Password);
-            var mongoSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
-            mongoSettings.Credential = credential;
+            var mongoSettings = settings.mongoDbSettings;
+            var credential = MongoCredential.CreateCredential("admin", mongoSettings.Username, mongoSettings.Password);
+            var mongoClientSetting = MongoClientSettings.FromConnectionString(mongoSettings.ConnectionString);
+            mongoClientSetting.Credential = credential;
 
-            _database = new MongoClient(mongoSettings).GetDatabase(settings.DatabaseName);
+            _database = new MongoClient(mongoClientSetting).GetDatabase(mongoSettings.DatabaseName);
         }
 
         public IMongoCollection<TDocument> GetCollection<TDocument>()

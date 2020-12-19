@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Services;
-using SeoulAir.Data.Domain.Services;
 using SeoulAir.Data.Domain.Services.HelperClasses;
 
 namespace SeoulAir.Data.Api.Configuration.Extensions
@@ -18,17 +17,7 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
         public static IServiceCollection AddMQTT(this IServiceCollection services, IConfiguration configuration)
         {
             ISettingsReader reader = new SettingsReader(configuration);
-            IMqttService<DataRecordDto> _mqttService = new MqttService<DataRecordDto>(reader.ReadAllSettings());
-
-            /*await _mqttService.OpenConnection();
-            while (IsOn)
-            {
-                await _mqttService.SubscribeToTopic();
-            }
-            await _mqttService.CloseConnection();
-            */
-
-            services.AddSingleton(_mqttService);
+            services.AddSingleton(reader.ReadAllSettings());
             return services;
         }
 

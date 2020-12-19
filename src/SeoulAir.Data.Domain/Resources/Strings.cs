@@ -3,11 +3,9 @@
     public static class Strings
     {
         public const string InvalidConfigurationAttribute = "Invalid configuration file.\nAttribute: '{0}' is not set";
-        public const string FileDoesNotExistMessage = "Specified file does not exist or does not match required extension.";
-        public const string InvalidFileFormatMessage = "Specified file does not match format that is required for the device.";
-        public const string InvalidDateFormatMessage = "Application does not support provided date format.";
         public const string InvalidStationCodeMessage = "Application does not support provided station code format";
-        public const string InvalidColumnTypeMessage = "Column {0} has unexpected data type.";
+        public const string MqttConnectingExceptionMessage = "Error ocured while trying to connect to mqtt broker.";
+        public const string ReadingMessageExceptionMessage = "Error ocured while trying to read the message.";
 
         public const string InternalServerErrorUri = "https://tools.ietf.org/html/rfc7231#section-6.6.1";
         public const string NotImplementedUri = "https://tools.ietf.org/html/rfc7231#section-6.6.2";

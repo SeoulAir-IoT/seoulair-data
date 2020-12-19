@@ -1,6 +1,8 @@
 ﻿using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Repositories;
 using SeoulAir.Data.Domain.Interfaces.Services;
+using SeoulAir.Data.Domain.Services.Extensions;
+using System;
 using System.Threading.Tasks;
 
 namespace SeoulAir.Data.Domain.Services
@@ -30,9 +32,25 @@ namespace SeoulAir.Data.Domain.Services
             return await _baseRepository.GetByIdAsync(id);
         }
 
+        public async Task<PaginatedResultDto<TDto>> GetPaginated(Paginator paginator)
+        {
+            CheckTypeProperties(paginator);
+
+            return await _baseRepository.GetPaginated(paginator);
+        }
+
         public async Task UpdateAsync(TDto dto)
         {
             await _baseRepository.UpdateAsync(dto);
+        }
+
+        private void CheckTypeProperties(Paginator paginator)
+        {
+            if (!typeof(TDto).HasPublicProperty(paginator.OrderBy))
+                throw new ArgumentException($"Pagination error. Invalid \"Order By\" option: {paginator.OrderBy}");
+
+            if (paginator.FilterBy != null && !typeof(TDto).HasPublicProperty(paginator.FilterBy))
+                throw new ArgumentException($"Pagination error. Invalid \"Filter by\" option: {paginator.FilterBy}");
         }
     }
 }

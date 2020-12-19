@@ -10,5 +10,6 @@ namespace SeoulAir.Data.Domain.Interfaces.Repositories
         Task UpdateAsync(TDto dto);
         Task DeleteAsync(string id);
         Task<TDto> GetByIdAsync(string id);
+        Task<PaginatedResultDto<TDto>> GetPaginated(Paginator paginator);
     }
 }

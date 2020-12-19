@@ -35,5 +35,11 @@ namespace SeoulAir.Data.Api.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+        [HttpGet("paginated")]
+        public async Task<IActionResult> GetPaginated([FromQuery] Paginator paginator)
+        {
+            return Ok(await _service.GetPaginated(paginator));
+        }
     }
 }
