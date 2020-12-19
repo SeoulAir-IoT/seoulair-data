@@ -8,8 +8,9 @@ namespace SeoulAir.Data.Domain.Services.Extensions
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
-            services.AddScoped<IAirPollutionService, AirPollutionService>();
-            services.AddScoped<ICrudBaseService<DataRecordDto>, CrudBaseService<DataRecordDto>>();
+            services.AddSingleton<IAirPollutionService, AirPollutionService>();
+            services.AddSingleton<ICrudBaseService<DataRecordDto>, CrudBaseService<DataRecordDto>>();
+            services.AddSingleton<IMqttListenerService<DataRecordDto>,MqttListenerService<DataRecordDto>>();
 
             return services;
         }

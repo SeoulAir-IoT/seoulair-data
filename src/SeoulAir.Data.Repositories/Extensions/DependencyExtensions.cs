@@ -10,9 +10,9 @@ namespace SeoulAir.Device.Domain.Services.Extensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IAirPollutionRepository, AirPollutionRepository>();
-            services.AddScoped<ICrudBaseRepository<DataRecordDto>, CrudBaseRepository<DataRecordDto, DataRecord>>();
-            services.AddScoped<IMongoDbContext, MongoDbContext>();
+            services.AddSingleton<IAirPollutionRepository, AirPollutionRepository>();
+            services.AddSingleton<ICrudBaseRepository<DataRecordDto>, CrudBaseRepository<DataRecordDto, DataRecord>>();
+            services.AddSingleton<IMongoDbContext, MongoDbContext>();
 
             return services;
         }

@@ -5,10 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SeoulAir.Data.Api.Configuration;
-using SeoulAir.Data.Domain.Dtos;
+using SeoulAir.Data.Api.Configuration.Extensions;
 using SeoulAir.Data.Domain.Services.Extensions;
 using SeoulAir.Device.Domain.Services.Extensions;
-using SeoulAir.Data.Api.Configuration.Extensions;
 
 namespace SeoulAir.Data.Api
 {
@@ -25,6 +24,15 @@ namespace SeoulAir.Data.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMongoDb(Configuration);
+			
+			services.AddCors(options =>
+			{
+				options.AddPolicy(name: "other_network",
+								  builder =>
+								  {
+									  builder.WithOrigins("172.18.0.2:1883");
+								  });
+			});
 
             services.AddControllers();
 
@@ -47,9 +55,13 @@ namespace SeoulAir.Data.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+			
+			app.UseCors("other_network");
 
             app.UseAuthorization();
 

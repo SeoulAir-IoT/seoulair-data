@@ -24,5 +24,5 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 
 COPY --from=build /app/src/SeoulAir.Data.Api/out ./
-ENV ASPNETCORE_URLS=http://+:5500
+ENV ASPNETCORE_URLS=http://+:5600
 ENTRYPOINT ["dotnet","SeoulAir.Data.Api.dll"]
