@@ -10,6 +10,9 @@ using SeoulAir.Data.Domain.Interfaces.Services;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using SeoulAir.Data.Domain.Options;
+using SeoulAir.Data.Domain.Services.OptionsValidators;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Domain.Services
@@ -17,13 +20,13 @@ namespace SeoulAir.Data.Domain.Services
     public sealed class MqttListenerService<TDto> : IMqttListenerService<TDto>
         where TDto : BaseDtoWithId
     {
-        private readonly MqttSettings _settings;
+        private readonly MqttConnectionOptions _settings;
         private readonly ICrudBaseService<TDto> _crudBaseService;
         private IMqttClient _mqttClient;
 
-        public MqttListenerService(AppSettings settings, ICrudBaseService<TDto> crudBaseService)
+        public MqttListenerService(IOptions<MqttConnectionOptions> settings, ICrudBaseService<TDto> crudBaseService)
         {
-            _settings = settings.mqttSettings;
+            _settings = settings.Value;
             _crudBaseService = crudBaseService;
         }
         
@@ -66,7 +69,7 @@ namespace SeoulAir.Data.Domain.Services
             IMqttClientOptions options = new MqttClientOptionsBuilder()
                 .WithTcpServer(_settings.BrokerAddress, _settings.BrokerPort)
                 .WithCommunicationTimeout(TimeSpan.FromSeconds(6))
-                .WithClientId("SeoulAir-Data")
+                .WithClientId(_settings.DataReceiverClientId)
                 .Build();
 
             _mqttClient = factory.CreateMqttClient();
@@ -87,7 +90,7 @@ namespace SeoulAir.Data.Domain.Services
         public async Task SubscribeToTopic()
         {
             await _mqttClient.SubscribeAsync(new MqttTopicFilterBuilder()
-                .WithTopic(_settings.SubscribeTopic)
+                .WithTopic(_settings.Topic)
                 .Build());
 
            _mqttClient.UseApplicationMessageReceivedHandler(ReceiveMessage);

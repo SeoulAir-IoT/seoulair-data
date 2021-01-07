@@ -1,8 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SeoulAir.Data.Domain.Dtos;
-using SeoulAir.Data.Domain.Interfaces.Services;
-using SeoulAir.Data.Domain.Services.HelperClasses;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using SeoulAir.Data.Domain.Options;
+using SeoulAir.Data.Domain.Services.OptionsValidators;
+using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Api.Configuration.Extensions
 {
@@ -11,30 +16,38 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen();
-            return services;
-        }
-
-        public static IServiceCollection AddMQTT(this IServiceCollection services, IConfiguration configuration)
-        {
-            ISettingsReader reader = new SettingsReader(configuration);
-            services.AddSingleton(reader.ReadAllSettings());
-            return services;
-        }
-
-        public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
-        {
-            MongoDbSettings dbSettings = new MongoDbSettings()
+            services.ConfigureSwaggerGen(options =>
             {
-                ConnectionString = configuration.GetSection("MongoDbSettings:ConnectionString").Value,
-                DatabaseName = configuration.GetSection("MongoDbSettings:DatabaseName").Value,
-                Username = configuration.GetSection("MongoDbSettings:Username").Value,
-                Password = configuration.GetSection("MongoDbSettings:Password").Value
-            };
+                var xmlDocumentationFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlDocumentationFileName));
+                options.DescribeAllParametersInCamelCase();
+                options.SwaggerDoc(OpenApiInfoProjectVersion, new OpenApiInfo
+                {
+                    Title = OpenApiInfoTitle,
+                    Description = OpenApiInfoDescription,
+                    Version = OpenApiInfoProjectVersion,
+                    Contact = new OpenApiContact
+                    {
+                        Email = string.Empty,
+                        Name = GitlabContactName,
+                        Url = new Uri(GitlabRepoUri)
+                    }
+                });
+            });
 
-            services.AddSingleton(dbSettings);
+            return services;
+        }
 
+        public static IServiceCollection AddApplicationSettings(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.Configure<MqttConnectionOptions>(configuration.GetSection(MqttConnectionOptions.AppSettingsPath));
+            services.AddSingleton<IValidateOptions<MqttConnectionOptions>, MqttOptionsValidator>();
+
+            services.Configure<MongoDbOptions>(configuration.GetSection(MongoDbOptions.AppSettingsPath));
+            services.AddSingleton<IValidateOptions<MongoDbOptions>, MongoDbOptionsValidator>();
+            
             return services;
         }
     }
 }
-

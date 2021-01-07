@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using SeoulAir.Data.Api.Configuration;
 using SeoulAir.Data.Api.Configuration.Extensions;
+using SeoulAir.Data.Domain.Options;
 using SeoulAir.Data.Domain.Services.Extensions;
 using SeoulAir.Device.Domain.Services.Extensions;
 
@@ -18,33 +20,22 @@ namespace SeoulAir.Data.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMongoDb(Configuration);
-			
-			services.AddCors(options =>
-			{
-				options.AddPolicy(name: "other_network",
-								  builder =>
-								  {
-									  builder.WithOrigins("172.18.0.2:1883");
-								  });
-			});
-
             services.AddControllers();
 
+            services.AddApplicationSettings(Configuration);
+            
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             services.AddDomainServices();
-
+            
             services.AddRepositories();
 
             services.AddSwagger();
-
-            services.AddMQTT(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +51,6 @@ namespace SeoulAir.Data.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-			
-			app.UseCors("other_network");
 
             app.UseAuthorization();
 
