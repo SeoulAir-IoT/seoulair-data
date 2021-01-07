@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using SeoulAir.Data.Domain.Resources;
+using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Api.Configuration.Extensions
 {
@@ -9,8 +11,10 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swagger.json", "SeoulAir.Data API V1");
+                config.SwaggerEndpoint(string.Format(SwaggerEndpoint, OpenApiInfoProjectVersion),
+                    OpenApiInfoProjectVersion);
                 config.RoutePrefix = string.Empty;
+                config.DocumentTitle = OpenApiInfoTitle;
             });
 
             return app;

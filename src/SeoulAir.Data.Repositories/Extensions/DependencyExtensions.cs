@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Repositories;
-using SeoulAir.Data.Domain.Options;
 using SeoulAir.Data.Repositories;
 using SeoulAir.Data.Repositories.Entities;
 
