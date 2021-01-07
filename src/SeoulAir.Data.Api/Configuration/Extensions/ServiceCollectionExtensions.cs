@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SeoulAir.Data.Domain.Dtos;
-using SeoulAir.Data.Domain.Interfaces.Services;
-using SeoulAir.Data.Domain.Services.HelperClasses;
+using Microsoft.Extensions.Options;
+using SeoulAir.Data.Domain.Options;
+using SeoulAir.Data.Domain.Services.OptionsValidators;
 
 namespace SeoulAir.Data.Api.Configuration.Extensions
 {
@@ -14,25 +14,15 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
             return services;
         }
 
-        public static IServiceCollection AddMQTT(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationSettings(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            ISettingsReader reader = new SettingsReader(configuration);
-            services.AddSingleton(reader.ReadAllSettings());
-            return services;
-        }
+            services.Configure<MqttConnectionOptions>(configuration.GetSection(MqttConnectionOptions.AppSettingsPath));
+            services.AddSingleton<IValidateOptions<MqttConnectionOptions>, MqttOptionsValidator>();
 
-        public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
-        {
-            MongoDbSettings dbSettings = new MongoDbSettings()
-            {
-                ConnectionString = configuration.GetSection("MongoDbSettings:ConnectionString").Value,
-                DatabaseName = configuration.GetSection("MongoDbSettings:DatabaseName").Value,
-                Username = configuration.GetSection("MongoDbSettings:Username").Value,
-                Password = configuration.GetSection("MongoDbSettings:Password").Value
-            };
-
-            services.AddSingleton(dbSettings);
-
+            services.Configure<MongoDbOptions>(configuration.GetSection(MongoDbOptions.AppSettingsPath));
+            services.AddSingleton<IValidateOptions<MongoDbOptions>, MongoDbOptionsValidator>();
+            
             return services;
         }
     }

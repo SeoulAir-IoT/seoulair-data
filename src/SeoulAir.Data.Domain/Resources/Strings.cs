@@ -12,5 +12,8 @@
 
         public const string InternalServerErrorTitle = "500 Internal Server Error";
         public const string NotImplementedTitle = "501 Not Implemented";
+        
+        public const string ParameterNullOrEmptyMessage = "Parameter {0} must not be null or empty string.";
+        public const string ParameterBetweenMessage = "Value of parameter {0} must be between {1} and {2}.";
     }
 }
