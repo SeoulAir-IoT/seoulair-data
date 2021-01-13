@@ -8,6 +8,6 @@ namespace SeoulAir.Data.Domain.Dtos
 
         public StationInfoDto StationInfo { get; set; }
 
-        public AirPollutionInfoDto AirPollutionInfo {get;set;}
+        public AirPollutionInfoDto AirPollutionInfo { get; set; }
     }
 }

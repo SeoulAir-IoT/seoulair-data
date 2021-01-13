@@ -6,7 +6,7 @@ namespace SeoulAir.Data.Repositories.Entities
     public class BaseEntityWithId
     {
         [BsonId]
-        public ObjectId Id { get; set; }
-
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
     }
 }

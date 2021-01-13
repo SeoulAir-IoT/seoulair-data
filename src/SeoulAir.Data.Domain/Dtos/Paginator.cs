@@ -8,5 +8,6 @@
         public bool IsDescending { get; set; } = false;
         public string FilterBy { get; set; } = null;
         public string FilterValue { get; set; } = null;
+        public FilterType? FilterType { get; set; } = null;
     }
 }

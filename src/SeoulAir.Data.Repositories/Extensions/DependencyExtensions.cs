@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Repositories;
-using SeoulAir.Data.Repositories;
 using SeoulAir.Data.Repositories.Entities;
 
-namespace SeoulAir.Device.Domain.Services.Extensions
+namespace SeoulAir.Data.Repositories.Extensions
 {
     public static class DependencyExtensions
     {

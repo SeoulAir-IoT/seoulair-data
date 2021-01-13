@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,7 @@ using SeoulAir.Data.Api.Configuration;
 using SeoulAir.Data.Api.Configuration.Extensions;
 using SeoulAir.Data.Domain.Options;
 using SeoulAir.Data.Domain.Services.Extensions;
-using SeoulAir.Device.Domain.Services.Extensions;
+using SeoulAir.Data.Repositories.Extensions;
 
 namespace SeoulAir.Data.Api
 {
@@ -25,7 +26,8 @@ namespace SeoulAir.Data.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => 
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddApplicationSettings(Configuration);
             

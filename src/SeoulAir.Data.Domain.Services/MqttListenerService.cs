@@ -1,18 +1,16 @@
 ﻿using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
-using Newtonsoft.Json;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Exceptions;
 using SeoulAir.Data.Domain.Interfaces.Services;
 using System;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SeoulAir.Data.Domain.Options;
-using SeoulAir.Data.Domain.Services.OptionsValidators;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Domain.Services
@@ -22,12 +20,15 @@ namespace SeoulAir.Data.Domain.Services
     {
         private readonly MqttConnectionOptions _settings;
         private readonly ICrudBaseService<TDto> _crudBaseService;
+        private readonly ILogger<MqttListenerService<TDto>> _logger;
         private IMqttClient _mqttClient;
 
-        public MqttListenerService(IOptions<MqttConnectionOptions> settings, ICrudBaseService<TDto> crudBaseService)
+        public MqttListenerService(IOptions<MqttConnectionOptions> settings, ICrudBaseService<TDto> crudBaseService,
+            ILogger<MqttListenerService<TDto>> logger)
         {
             _settings = settings.Value;
             _crudBaseService = crudBaseService;
+            _logger = logger;
         }
         
         public async Task CloseConnection()
@@ -42,26 +43,24 @@ namespace SeoulAir.Data.Domain.Services
 
         public void Dispose()
         {
-            if (_mqttClient != null)
-            {
-                if (_mqttClient.IsConnected)
-                    _mqttClient.DisconnectAsync();
-                _mqttClient.Dispose();
-            }
+            if (_mqttClient == null) 
+                return;
+            
+            if (_mqttClient.IsConnected)
+                _mqttClient.DisconnectAsync();
+            _mqttClient.Dispose();
         }
 
         public bool IsConnected()
         {
-            if (_mqttClient == default)
-                return false;
-            return _mqttClient.IsConnected;
+            return _mqttClient != default && _mqttClient.IsConnected;
         }
 
         public async Task OpenConnection()
         {
             if(_mqttClient != null && _mqttClient.IsConnected)
             {
-                Console.WriteLine("Warning: Client already connected!");
+                _logger.LogWarning(MqttClientConnectionWarning);
                 return;
             }
 
@@ -73,8 +72,6 @@ namespace SeoulAir.Data.Domain.Services
                 .Build();
 
             _mqttClient = factory.CreateMqttClient();
-            _mqttClient.UseConnectedHandler(ShowConnectedInformation);
-            _mqttClient.UseDisconnectedHandler(ShowDisconnectedInformation);
 
             try
             {
@@ -82,7 +79,7 @@ namespace SeoulAir.Data.Domain.Services
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _logger.LogError(ex.ToString());
                 throw new MqttConnectionException(MqttConnectingExceptionMessage);
             }
         }
@@ -98,17 +95,8 @@ namespace SeoulAir.Data.Domain.Services
 
         private async Task ReceiveMessage(MqttApplicationMessageReceivedEventArgs messageArgs)
         {
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Message received");
-            Console.WriteLine("-----------------------");
             TDto result = DeserializeObject(messageArgs.ApplicationMessage.Payload);
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Message deserialized");
-            Console.WriteLine("-----------------------");
             await _crudBaseService.AddAsync(result);
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Message inserted in mongo");
-            Console.WriteLine("-----------------------");
         }
 
         private TDto DeserializeObject(byte[] messagePayload)
@@ -117,32 +105,14 @@ namespace SeoulAir.Data.Domain.Services
             TDto result;
             try
             {
-                result = JsonConvert.DeserializeObject<TDto>(objectAsString);
+                result = JsonSerializer.Deserialize<TDto>(objectAsString);
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _logger.LogError(ex.ToString());
                 throw new MessageConvertException(ReadingMessageExceptionMessage);
             }
             return result;
-        }
-    
-        private void ShowConnectedInformation(MqttClientConnectedEventArgs args)
-        {
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Contected to the server!");
-            Console.WriteLine($"Adress: {_settings.BrokerAddress}");
-            Console.WriteLine($"Port: {_settings.BrokerPort}");
-            Console.WriteLine("-----------------------");
-        }
-
-        private void ShowDisconnectedInformation(MqttClientDisconnectedEventArgs args)
-        {
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Disconnected from the server!");
-            Console.WriteLine($"Adress: {_settings.BrokerAddress}");
-            Console.WriteLine($"Port: {_settings.BrokerPort}");
-            Console.WriteLine("-----------------------");
         }
     }
 }

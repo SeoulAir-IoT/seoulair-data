@@ -11,7 +11,7 @@ namespace SeoulAir.Data.Api.Controllers
     {
         private readonly IAirPollutionService _service;
 
-        public AirPollutionController(IAirPollutionService service) : base()
+        public AirPollutionController(IAirPollutionService service)
         {
             _service = service;
         }
