@@ -4,6 +4,7 @@ using SeoulAir.Data.Domain.Interfaces.Services;
 using SeoulAir.Data.Domain.Services.Extensions;
 using System;
 using System.Threading.Tasks;
+using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Domain.Services
 {
@@ -47,10 +48,10 @@ namespace SeoulAir.Data.Domain.Services
         private void CheckTypeProperties(Paginator paginator)
         {
             if (!typeof(TDto).HasPublicProperty(paginator.OrderBy))
-                throw new ArgumentException($"Pagination error. Invalid \"Order By\" option: {paginator.OrderBy}");
+                throw new ArgumentException(string.Format(PaginationOrderError, paginator.OrderBy));
 
             if (paginator.FilterBy != null && !typeof(TDto).HasPublicProperty(paginator.FilterBy))
-                throw new ArgumentException($"Pagination error. Invalid \"Filter by\" option: {paginator.FilterBy}");
+                throw new ArgumentException(string.Format(PaginationFilterError, paginator.FilterBy));
         }
     }
 }

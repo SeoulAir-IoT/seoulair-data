@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using SeoulAir.Data.Domain.Resources;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
 namespace SeoulAir.Data.Api.Configuration.Extensions

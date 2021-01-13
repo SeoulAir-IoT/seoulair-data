@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SeoulAir.Data.Domain.Exceptions;
 using System;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
@@ -34,11 +33,11 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
         private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             var problemDetails = GenerateProblemDetails(ex);
-            var jsonSetting = new JsonSerializerSettings
+            var jsonSetting = new JsonSerializerOptions
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            var result = JsonConvert.SerializeObject(problemDetails, jsonSetting);
+            var result = JsonSerializer.Serialize(problemDetails, jsonSetting);
 
             context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = (int)problemDetails.Status;

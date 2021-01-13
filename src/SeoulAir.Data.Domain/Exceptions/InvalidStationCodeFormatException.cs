@@ -10,8 +10,10 @@ namespace SeoulAir.Data.Domain.Exceptions
 
         public InvalidStationCodeFormatException(string message) : base(message) { }
 
-        public InvalidStationCodeFormatException(string message, Exception innerException) : base(message, innerException) { }
+        public InvalidStationCodeFormatException(string message, Exception innerException) 
+            : base(message, innerException) { }
 
-        protected InvalidStationCodeFormatException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected InvalidStationCodeFormatException(SerializationInfo info, StreamingContext context) 
+            : base(info, context) { }
     }
 }

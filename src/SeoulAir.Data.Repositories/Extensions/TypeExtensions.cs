@@ -12,10 +12,10 @@ namespace SeoulAir.Data.Repositories.Extensions
             var nestedLevel = propertyName.Split('.').ToList();
             while (nestedLevel.Count > 1)
             {
-                tempType = tempType.GetProperty(nestedLevel[0]).PropertyType;
+                tempType = tempType?.GetProperty(nestedLevel[0])?.PropertyType;
                 nestedLevel.RemoveAt(0);
             }
-            return tempType.GetProperty(nestedLevel[0]);
+            return tempType?.GetProperty(nestedLevel[0]);
         }
     }
 }

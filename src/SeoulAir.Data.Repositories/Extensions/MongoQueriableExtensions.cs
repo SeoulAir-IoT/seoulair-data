@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using SeoulAir.Data.Domain.Dtos;
 
 namespace SeoulAir.Data.Repositories.Extensions
 {
-    public static class IMongoQueryableExtension
+    public static class MongoQueryableExtension
     {
         public static IOrderedMongoQueryable<T> OrderBy<T>(this IMongoQueryable<T> query, string propertyName, IComparer<object> comparer = null)
         {
@@ -60,12 +61,35 @@ namespace SeoulAir.Data.Repositories.Extensions
                 );
         }
 
-        public static IMongoQueryable<T> FilterBy<T>(this IMongoQueryable<T> query, string propertyName, object propertyValue)
+        public static IMongoQueryable<T> FilterBy<T>(this IMongoQueryable<T> query, string propertyName,
+            object propertyValue, FilterType? filterType)
         {
             var filterParam = Expression.Parameter(typeof(T), nameof(T));
-            var filterProperty = propertyName.Split('.').Aggregate<string, Expression>(filterParam, Expression.PropertyOrField);
+            var filterProperty = propertyName.Split('.')
+                .Aggregate<string, Expression>(filterParam, Expression.PropertyOrField);
             var propertyCastedValue = Convert.ChangeType(propertyValue, filterProperty.Type);
-            var filterBody = Expression.Equal(filterProperty, Expression.Constant(propertyCastedValue, filterProperty.Type));
+
+            
+            BinaryExpression filterBody;
+            switch (filterType)
+            {
+                case FilterType.Equal:
+                    filterBody = Expression.Equal(filterProperty,
+                        Expression.Constant(propertyCastedValue, filterProperty.Type));
+                    break;
+                case FilterType.GraterThen:
+                    filterBody = Expression.GreaterThan(filterProperty,
+                        Expression.Constant(propertyCastedValue, filterProperty.Type));
+                    break;
+                case FilterType.LessThen:
+                    filterBody = Expression.LessThan(filterProperty,
+                        Expression.Constant(propertyCastedValue, filterProperty.Type));
+                    break;
+                default:
+                    filterBody = Expression.Equal(filterProperty,
+                        Expression.Constant(propertyCastedValue, filterProperty.Type));
+                    break;
+            }
             var lambdaExpression = Expression.Lambda<Func<T, bool>>(filterBody, filterParam);
 
             return query.Where(lambdaExpression);

@@ -3,50 +3,42 @@ version: '3.8'
 services:
     seoulair-data:
         container_name: seoulair-data
-        restart: always
         image: seoulair-data
+        restart: always
         build:
             context: ./
             dockerfile: Dockerfile
+        network_mode: bridge
         ports:
             - 5600:5600
-        networks:
-            default:
-                ipv4_address: 172.18.0.4
         links:
-            - mongo
+            - seoulair-data-db
+        external_links:
+            - eclipse-mosquitto
 
-    mongo:
+    seoulair-data-db:
         container_name: seoulair-data-db
         image: mongo
         command: mongod --port 27018
         restart: always
         environment:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
         ports:
-          - 5602:27018
-        networks:
-            default:
-                ipv4_address: 172.18.0.5
-          
-    mongo-express:
+            - 5601:27017
+        network_mode: bridge
+
+    seoulair-data-mongo-express:
         image: mongo-express
         container_name: seoulair-data-mongo-express
         restart: always
         environment:
-          ME_CONFIG_MONGODB_ADMINUSERNAME: root
-          ME_CONFIG_MONGODB_ADMINPASSWORD: example
-          ME_CONFIG_MONGODB_PORT: 27018
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: example
+            ME_CONFIG_MONGODB_PORT: 27018
+            ME_CONFIG_MONGODB_SERVER: seoulair-data-db
         ports:
-          - 5603:8081
-        networks:
-            default:
-                ipv4_address: 172.18.0.6
-        depends_on:
-          - mongo
-
-networks:
-    default:
-        external:
-            name: seoulair_device_network
+            - 5602:8081
+        network_mode: bridge
+        links:
+           - "seoulair-data-db"
