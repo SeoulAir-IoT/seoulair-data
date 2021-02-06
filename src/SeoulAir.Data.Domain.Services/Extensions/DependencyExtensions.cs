@@ -3,7 +3,6 @@ using SeoulAir.Data.Domain.Builders;
 using SeoulAir.Data.Domain.Dtos;
 using SeoulAir.Data.Domain.Interfaces.Services;
 using SeoulAir.Data.Domain.Services.Builders;
-using SeoulAir.Data.Domain.Services.Enums;
 
 namespace SeoulAir.Data.Domain.Services.Extensions
 {

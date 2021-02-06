@@ -9,26 +9,26 @@ namespace SeoulAir.Data.Domain.Services.Builders
 {
     public class MicroserviceHttpRequestBuilder: IMicroserviceHttpRequestBuilder
     {
-        private HttpMethod HttpMethod;
-        private StringContent RequestBody;
-        private Uri RequestUri;
+        private HttpMethod _httpMethod;
+        private StringContent _requestBody;
+        private Uri _requestUri;
 
         public HttpRequestMessage Build()
         {
             ValidateParameters();
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod, RequestUri);
+            HttpRequestMessage message = new HttpRequestMessage(_httpMethod, _requestUri);
 
-            if (HttpMethod != default)
-                message.Content = RequestBody;
+            if (_httpMethod != default)
+                message.Content = _requestBody;
 
             return message;
         }
 
         public IMicroserviceHttpRequestBuilder Restart()
         {
-            HttpMethod = default;
-            RequestBody = default;
-            RequestUri = default;
+            _httpMethod = default;
+            _requestBody = default;
+            _requestUri = default;
             return this;
         }
 
@@ -37,7 +37,7 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (method == default)
                 throw new ArgumentNullException(nameof(method));
 
-            HttpMethod = method;
+            _httpMethod = method;
             return this;
         }
 
@@ -46,7 +46,7 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (parameter.Equals(default(TParameter)))
                 throw new ArgumentNullException(nameof(parameter));
 
-            RequestBody = new StringContent(
+            _requestBody = new StringContent(
                 JsonSerializer.Serialize(parameter, typeof(TParameter)),
                 Encoding.UTF8,
                 "application/json");
@@ -59,19 +59,19 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (uri == default)
                 throw new ArgumentNullException(nameof(uri));
 
-            RequestUri = uri;
+            _requestUri = uri;
             return this;
         }
     
         private void ValidateParameters()
         {
-            if (HttpMethod == null)
-                throw new ArgumentNullException(string.Format(InvalidParameterValueMessage, nameof(HttpMethod)));
+            if (_httpMethod == null)
+                throw new ArgumentNullException(string.Format(InvalidParameterValueMessage, nameof(_httpMethod)));
 
-            if (RequestUri == null)
-                throw new ArgumentNullException(string.Format(InvalidParameterValueMessage, nameof(RequestUri)));
+            if (_requestUri == null)
+                throw new ArgumentNullException(string.Format(InvalidParameterValueMessage, nameof(_requestUri)));
 
-            if (HttpMethod == HttpMethod.Get && RequestBody != default)
+            if (_httpMethod == HttpMethod.Get && _requestBody != default)
                 throw new ArgumentException(RequestBodyGetException);
         }
     }

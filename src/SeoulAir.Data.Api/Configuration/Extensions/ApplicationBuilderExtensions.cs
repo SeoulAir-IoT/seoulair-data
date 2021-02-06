@@ -7,7 +7,6 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
     {
         public static IApplicationBuilder  UseSwaggerDocumentation(this IApplicationBuilder app)
         {
-            app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
                 config.SwaggerEndpoint(string.Format(SwaggerEndpoint, OpenApiInfoProjectVersion),
@@ -15,7 +14,8 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
                 config.RoutePrefix = string.Empty;
                 config.DocumentTitle = OpenApiInfoTitle;
             });
-
+            app.UseSwagger();
+            
             return app;
         }
     }

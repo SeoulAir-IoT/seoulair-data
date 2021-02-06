@@ -23,12 +23,14 @@ namespace SeoulAir.Data.Repositories
             Collection = dbContext.GetCollection<TEntity>();
         }
 
-        public async Task AddAsync(TDto dto)
+        public async Task<string> AddAsync(TDto dto)
         {
             TEntity entity = Mapper.Map<TEntity>(dto);
             entity.Id = null;
 
             await Collection.InsertOneAsync(entity);
+
+            return entity.Id;
         }
 
         public async Task DeleteAsync(string id)
@@ -57,7 +59,7 @@ namespace SeoulAir.Data.Repositories
 
             var count = await items.CountAsync();
 
-            var result = await items.Skip(paginator.PageIndex * paginator.PageIndex)
+            var result = await items.Skip(paginator.PageIndex - 1 * paginator.PageIndex)
                 .Take(paginator.PageSize)
                 .ToListAsync();
 

@@ -32,7 +32,7 @@ namespace SeoulAir.Data.Repositories.Extensions
         /// <summary>
         /// Builds the Queryable functions using a TSource property name.
         /// </summary>
-        public static IOrderedMongoQueryable<T> CallOrderedQueryable<T>(this IMongoQueryable<T> query, string methodName, string propertyName,
+        private static IOrderedMongoQueryable<T> CallOrderedQueryable<T>(this IMongoQueryable<T> query, string methodName, string propertyName,
                 IComparer<object> comparer = null)
         {
             var param = Expression.Parameter(typeof(T));

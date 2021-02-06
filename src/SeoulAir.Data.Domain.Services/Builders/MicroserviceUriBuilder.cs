@@ -13,9 +13,9 @@ namespace SeoulAir.Data.Domain.Services.Builders
     {
         private readonly Dictionary<string, string> _queryParameters;
         private readonly List<string> _pathParameters;
-        private string Endpoint;
-        private string ControllerName;
-        private MicroserviceUrlOptions MicroserviceUrlOptions;
+        private string _endpoint;
+        private string _controllerName;
+        private MicroserviceUrlOptions _microserviceUrlOptions;
 
         public MicroserviceUriBuilder()
         {
@@ -25,7 +25,7 @@ namespace SeoulAir.Data.Domain.Services.Builders
 
         public MicroserviceUriBuilder(MicroserviceUrlOptions options) : this()
         {
-            MicroserviceUrlOptions = options;
+            _microserviceUrlOptions = options;
         }
 
         public IMicroserviceUriBuilder AddQueryParameter<TParameter>(string parameterName, TParameter value)
@@ -56,8 +56,8 @@ namespace SeoulAir.Data.Domain.Services.Builders
 
             UriBuilder builder = new UriBuilder();
             builder.Scheme = "http";
-            builder.Host = MicroserviceUrlOptions.Address;
-            builder.Port = MicroserviceUrlOptions.Port;
+            builder.Host = _microserviceUrlOptions.Address;
+            builder.Port = _microserviceUrlOptions.Port;
             builder.Path = BuildPath();
             builder.Query = BuildQuery();
 
@@ -68,9 +68,9 @@ namespace SeoulAir.Data.Domain.Services.Builders
         {
             _queryParameters.Clear();
             _pathParameters.Clear();
-            Endpoint = default;
-            ControllerName = default;
-            MicroserviceUrlOptions = default;
+            _endpoint = default;
+            _controllerName = default;
+            _microserviceUrlOptions = default;
             return this;
         }
 
@@ -79,7 +79,7 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (endpoint == default)
                 throw new ArgumentNullException(nameof(endpoint));
 
-            Endpoint = endpoint.ToLower().Trim();
+            _endpoint = endpoint.ToLower().Trim();
             return this;
         }
 
@@ -88,7 +88,7 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (controllerName == default)
                 throw new ArgumentNullException(nameof(controllerName));
 
-            ControllerName = controllerName.ToLower().Trim();
+            _controllerName = controllerName.ToLower().Trim();
             return this;
         }
 
@@ -100,19 +100,19 @@ namespace SeoulAir.Data.Domain.Services.Builders
             if (microserviceOptions.Address == default || microserviceOptions.Port == default)
                 throw new ArgumentException(string.Format(Strings.InvalidParameterValueMessage, nameof(microserviceOptions)));
 
-            MicroserviceUrlOptions = microserviceOptions;
+            _microserviceUrlOptions = microserviceOptions;
             return this;
         }
 
         private string BuildPath()
         {
             StringBuilder path = new StringBuilder("/");
-            path.Append(ControllerName);
+            path.Append(_controllerName);
 
-            if (!string.IsNullOrEmpty(Endpoint))
+            if (!string.IsNullOrEmpty(_endpoint))
             {
                 path.Append("/");
-                path.Append(Endpoint);
+                path.Append(_endpoint);
             }
 
             foreach(string parameter in _pathParameters)
@@ -136,11 +136,11 @@ namespace SeoulAir.Data.Domain.Services.Builders
 
         private void ValidateProperties()
         {
-            if (MicroserviceUrlOptions == default)
-                throw new ArgumentNullException(nameof(MicroserviceUrlOptions));
+            if (_microserviceUrlOptions == default)
+                throw new ArgumentNullException(nameof(_microserviceUrlOptions));
 
-            if (ControllerName == default)
-                throw new ArgumentNullException(nameof(ControllerName));
+            if (_controllerName == default)
+                throw new ArgumentNullException(nameof(_controllerName));
         }
     }
 }

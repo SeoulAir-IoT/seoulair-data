@@ -11,38 +11,38 @@ namespace SeoulAir.Data.Domain.Services
     public class CrudBaseService<TDto> : ICrudBaseService<TDto>
         where TDto : BaseDtoWithId
     {
-        protected readonly ICrudBaseRepository<TDto> _baseRepository;
+        protected readonly ICrudBaseRepository<TDto> BaseRepository;
 
         public CrudBaseService(ICrudBaseRepository<TDto> baseRepository)
         {
-            _baseRepository = baseRepository;
+            BaseRepository = baseRepository;
         }
 
-        public async Task AddAsync(TDto dto)
+        public async Task<string> AddAsync(TDto dto)
         {
-            await _baseRepository.AddAsync(dto);
+            return await BaseRepository.AddAsync(dto);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await _baseRepository.DeleteAsync(id);
+            await BaseRepository.DeleteAsync(id);
         }
 
         public async Task<TDto> GetById(string id)
         {
-            return await _baseRepository.GetByIdAsync(id);
+            return await BaseRepository.GetByIdAsync(id);
         }
 
         public async Task<PaginatedResultDto<TDto>> GetPaginated(Paginator paginator)
         {
             CheckTypeProperties(paginator);
 
-            return await _baseRepository.GetPaginated(paginator);
+            return await BaseRepository.GetPaginated(paginator);
         }
 
         public async Task UpdateAsync(TDto dto)
         {
-            await _baseRepository.UpdateAsync(dto);
+            await BaseRepository.UpdateAsync(dto);
         }
 
         private void CheckTypeProperties(Paginator paginator)

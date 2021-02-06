@@ -99,7 +99,7 @@ namespace SeoulAir.Data.Domain.Services
         {
             TDto result = DeserializeObject(messageArgs.ApplicationMessage.Payload);
             await _crudBaseService.AddAsync(result);
-            Task.Run(() => _analyticsService.SendDataToAnalyticsService<TDto>(result));
+            Task.Run(() => _analyticsService.SendDataToAnalyticsService(result));
         }
 
         private TDto DeserializeObject(byte[] messagePayload)

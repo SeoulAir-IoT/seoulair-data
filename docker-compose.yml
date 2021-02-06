@@ -26,7 +26,7 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
         ports:
-            - 5601:27017
+            - 5602:27017
         network_mode: bridge
 
     seoulair-data-mongo-express:
@@ -39,7 +39,7 @@ services:
             ME_CONFIG_MONGODB_PORT: 27018
             ME_CONFIG_MONGODB_SERVER: seoulair-data-db
         ports:
-            - 5602:8081
+            - 5601:8081
         network_mode: bridge
         links:
            - seoulair-data-db

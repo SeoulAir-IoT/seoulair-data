@@ -7,12 +7,12 @@ namespace SeoulAir.Data.Domain.Services.Extensions
 {
     public static class TypeExtensions
     {
-        public static IEnumerable<PropertyInfo> GetPublicProperties(this Type type)
+        private static IEnumerable<PropertyInfo> GetPublicProperties(this Type type)
         {
             if (!type.IsInterface)
                 return type.GetProperties();
 
-            return (new Type[] { type })
+            return (new[] { type })
                    .Concat(type.GetInterfaces())
                    .SelectMany(i => i.GetProperties());
         }
@@ -23,7 +23,7 @@ namespace SeoulAir.Data.Domain.Services.Extensions
             var nestedLevel = propertyName.Split('.').ToList();
             while(nestedLevel.Count > 1)
             {
-                tempType = tempType.GetProperty(nestedLevel[0]).PropertyType;
+                tempType = tempType.GetProperty(nestedLevel[0])?.PropertyType;
                 nestedLevel.RemoveAt(0);
             }
             return tempType.GetPublicProperties().Any(property => property.Name == nestedLevel[0]);

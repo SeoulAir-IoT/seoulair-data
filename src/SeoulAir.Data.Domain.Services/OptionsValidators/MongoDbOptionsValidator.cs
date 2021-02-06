@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
-using SeoulAir.Data.Domain.Extensions;
 using SeoulAir.Data.Domain.Options;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
@@ -14,20 +13,16 @@ namespace SeoulAir.Data.Domain.Services.OptionsValidators
             List<string> failureMessages = new List<string>();
             
             if (string.IsNullOrWhiteSpace(options.Password))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Password))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Password)));
             
             if (string.IsNullOrWhiteSpace(options.Username))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Username))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Username)));
             
             if (string.IsNullOrWhiteSpace(options.DatabaseName))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.DatabaseName))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.DatabaseName)));
             
             if (string.IsNullOrWhiteSpace(options.ConnectionString))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.ConnectionString))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.ConnectionString)));
             
             return failureMessages.Any() 
                 ? ValidateOptionsResult.Fail(failureMessages) 

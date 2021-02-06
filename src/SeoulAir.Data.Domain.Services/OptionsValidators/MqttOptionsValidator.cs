@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
-using SeoulAir.Data.Domain.Extensions;
 using SeoulAir.Data.Domain.Options;
 using static SeoulAir.Data.Domain.Resources.Strings;
 
@@ -17,12 +16,10 @@ namespace SeoulAir.Data.Domain.Services.OptionsValidators
             ICollection<string> failureMessages = new List<string>();
 
             if (string.IsNullOrEmpty(options.BrokerAddress))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.BrokerAddress))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.BrokerAddress)));
 
             if (string.IsNullOrEmpty(options.Topic))
-                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Topic))
-                    .FormatAsExceptionMessage());
+                failureMessages.Add(string.Format(ParameterNullOrEmptyMessage, nameof(options.Topic)));
 
             if (options.BrokerPort < PortMinNumber || options.BrokerPort > PortMaxNumber)
                 failureMessages.Add(string.Format(
