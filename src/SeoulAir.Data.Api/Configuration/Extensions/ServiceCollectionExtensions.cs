@@ -47,6 +47,10 @@ namespace SeoulAir.Data.Api.Configuration.Extensions
             services.Configure<MongoDbOptions>(configuration.GetSection(MongoDbOptions.AppSettingsPath));
             services.AddSingleton<IValidateOptions<MongoDbOptions>, MongoDbOptionsValidator>();
             
+            services.Configure<SeoulAirAnalyticsOptions>(
+                configuration.GetSection(SeoulAirAnalyticsOptions.AppSettingsPath));
+            services.AddSingleton<IValidateOptions<SeoulAirAnalyticsOptions>, SeoulAirAnalyticsValidator>();
+            
             return services;
         }
     }

@@ -10,10 +10,12 @@ namespace SeoulAir.Data.Api.Controllers
     public class AirPollutionController : ControllerBase
     {
         private readonly IAirPollutionService _service;
+        private readonly IAnalyticsService _analyticsService;
 
-        public AirPollutionController(IAirPollutionService service)
+        public AirPollutionController(IAirPollutionService service, IAnalyticsService analyticsService)
         {
             _service = service;
+            _analyticsService = analyticsService;
         }
 
         [HttpGet]
@@ -26,6 +28,7 @@ namespace SeoulAir.Data.Api.Controllers
         public async Task<IActionResult> Post(DataRecordDto toCreate)
         {
             await _service.AddAsync(toCreate);
+            Task.Run(() => _analyticsService.SendDataToAnalyticsService(toCreate));
             return Ok();
         }
 

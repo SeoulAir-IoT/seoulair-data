@@ -7,13 +7,13 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\SeoulAir.Data.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;CS1591</NoWarn>
+    <NoWarn>1701;1702;CS1591;CS4014</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\SeoulAir.Data.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;CS1591</NoWarn>
+    <NoWarn>1701;1702;CS1591;CS4014</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
