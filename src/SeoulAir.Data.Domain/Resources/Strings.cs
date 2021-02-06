@@ -33,7 +33,7 @@
 
         public const string OpenApiInfoProjectName = "SeoulAir.Data API";
         public const string OpenApiInfoTitle = "SeoulAir Data microservice.";
-        public const string OpenApiInfoProjectVersion = "1.0";
+        public const string OpenApiInfoProjectVersion = "1.0.0";
         public const string OpenApiInfoDescription
             = "SeoulAir Data is microservice that is part of SeoulAir project.\n" +
               "For more information visit Gitlab Repository";
