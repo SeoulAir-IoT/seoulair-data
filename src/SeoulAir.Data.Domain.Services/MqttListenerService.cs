@@ -21,14 +21,16 @@ namespace SeoulAir.Data.Domain.Services
         private readonly MqttConnectionOptions _settings;
         private readonly ICrudBaseService<TDto> _crudBaseService;
         private readonly ILogger<MqttListenerService<TDto>> _logger;
+        private readonly IAnalyticsService _analyticsService;
         private IMqttClient _mqttClient;
 
         public MqttListenerService(IOptions<MqttConnectionOptions> settings, ICrudBaseService<TDto> crudBaseService,
-            ILogger<MqttListenerService<TDto>> logger)
+            ILogger<MqttListenerService<TDto>> logger, IAnalyticsService analyticsService)
         {
             _settings = settings.Value;
             _crudBaseService = crudBaseService;
             _logger = logger;
+            _analyticsService = analyticsService;
         }
         
         public async Task CloseConnection()
@@ -97,6 +99,7 @@ namespace SeoulAir.Data.Domain.Services
         {
             TDto result = DeserializeObject(messageArgs.ApplicationMessage.Payload);
             await _crudBaseService.AddAsync(result);
+            Task.Run(() => _analyticsService.SendDataToAnalyticsService<TDto>(result));
         }
 
         private TDto DeserializeObject(byte[] messagePayload)

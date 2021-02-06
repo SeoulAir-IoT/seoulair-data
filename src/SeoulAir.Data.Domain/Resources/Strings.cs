@@ -10,6 +10,9 @@
         public const string PaginationFilterError = "Pagination error. Invalid \"Filter by\" option: {0}";
         public const string MqttClientConnectionWarning = 
             "Warning: Trying to connect to Mqtt Broker but client is already connected!";
+        public const string InvalidParameterValueMessage = "Value of parameter {0} has invalid value.";
+        public const string RequestBodyGetException = "Http method GET does not support request body.";
+
 
         #endregion
         

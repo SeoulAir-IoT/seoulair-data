@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace SeoulAir.Data.Domain.Interfaces.Services
 {
-    public class IAnalyticsService
+    public interface IAnalyticsService
     {
-        
+        Task SendDataToAnalyticsService<TDto>(TDto dataRecord);
     }
 }

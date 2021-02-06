@@ -1,4 +1,10 @@
-$HEADER$namespace $NAMESPACE$
+using System.ComponentModel;
+
+namespace SeoulAir.Data.Domain.Services.Enums
 {
-  public enum $ENUM$ {$END$}
+    public enum AnalyticsControllers : byte
+    {
+        [Description("api/DataRecord")]
+        DataRecord,
+    }
 }

@@ -15,6 +15,7 @@ services:
             - seoulair-data-db
         external_links:
             - eclipse-mosquitto
+            - seoulair-analytics
 
     seoulair-data-db:
         container_name: seoulair-data-db
@@ -41,4 +42,4 @@ services:
             - 5602:8081
         network_mode: bridge
         links:
-           - "seoulair-data-db"
+           - seoulair-data-db

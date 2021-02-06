@@ -11,6 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeoulAir.Data.Domain.Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoulAir.Data.Repositories", "src\SeoulAir.Data.Repositories\SeoulAir.Data.Repositories.csproj", "{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A9CEACBB-262D-4C6F-BDDF-19BAD5E3B3D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{6A05029C-3ECB-4632-9440-2A59B7DA47F3}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.yml = docker-compose.yml
+	Dockerfile = Dockerfile
+	README.md = README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +48,11 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CCDE389-273A-402B-8552-318C63CD6854}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AD6AE106-7C4C-4996-B8F2-33701D53091D} = {A9CEACBB-262D-4C6F-BDDF-19BAD5E3B3D6}
+		{03164DB5-BCEB-4F3B-B2FD-8A84821AA18B} = {A9CEACBB-262D-4C6F-BDDF-19BAD5E3B3D6}
+		{33738720-EFAD-4D6E-B9CE-1C0944EA2E63} = {A9CEACBB-262D-4C6F-BDDF-19BAD5E3B3D6}
+		{1B9FCFC0-8C84-42BE-8F94-44425CC88E9E} = {A9CEACBB-262D-4C6F-BDDF-19BAD5E3B3D6}
 	EndGlobalSection
 EndGlobal
